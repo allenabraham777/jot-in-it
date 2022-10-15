@@ -1,0 +1,32 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "A simple chat application using MERN",
+  "main": "backend/index.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node backend/index.js",
+    "clean": "rm -rf output",
+    "build": "npm run clean && babel ./backend --out-dir output --copy-files",
+    "start": "node ./output/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.19.4",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "core-js": "^3.25.5",
+    "nodemon": "^2.0.20",
+    "regenerator-runtime": "^0.13.10"
+  }
+}
