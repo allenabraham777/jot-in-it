@@ -1,6 +1,7 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import dotenv from "dotenv";
+import "colors";
+import config from "config";
 
 /**
  * Module dependencies.
@@ -8,8 +9,6 @@ import dotenv from "dotenv";
 
 import http from "http";
 import app from "./src/app";
-
-dotenv.config();
 
 /**
  * Normalize a port into a number, string, or false.
@@ -34,7 +33,7 @@ const normalizePort = (val) => {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(config.port || 3001);
 app.set("port", port);
 
 /**
@@ -74,7 +73,7 @@ const onError = (error) => {
 const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-  console.log(`Listening on ${bind}`);
+  console.log(`Listening on ${bind}`.yellow.bold);
 };
 
 /**

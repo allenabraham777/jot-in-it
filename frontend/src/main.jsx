@@ -1,12 +1,20 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {BrowserRouter} from 'react-router-dom'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import axios from "axios";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+import "./main.css";
+
+axios.defaults.baseURL = "http://localhost:3001";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  // <React.StrictMode>
+  <ChakraProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>
-)
+  </ChakraProvider>
+  // </React.StrictMode>
+);

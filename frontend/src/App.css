@@ -1,0 +1,8 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  background: linear-gradient(rgb(255, 255, 255, 0.8), rgb(255, 255, 255, 0.8)),
+    url("./doodle-2.jpg");
+  background-size: 250px;
+  background-repeat: repeat;
+}

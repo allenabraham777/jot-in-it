@@ -5,9 +5,15 @@
   "plugins": [
     ["module-resolver", {
       "alias": {
+        "config": "./backend/config",
+        "routes": "./backend/src/routes",
+        "controllers": "./backend/src/controllers",
+        "services": "./backend/src/services",
         "models": "./backend/src/database/models",
         "repository": "./backend/src/database/repository",
-        "utils": "./backend/src/utils"
+        "utils": "./backend/src/utils",
+        "middlewares": "./backend/src/middlewares",
+        "validators": "./backend/src/middlewares/validators"
       }
     }]
   ]

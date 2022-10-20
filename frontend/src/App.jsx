@@ -1,14 +1,15 @@
-import { Route } from 'react-router-dom';
-import ChatPage from './pages/ChatPage';
-import HomePage from './pages/HomePage';
+import { Route } from "react-router-dom";
+import { HomePage, ChatPage } from "pages";
+
+import "./App.css";
 
 const App = () => {
   return (
-    <div>
-      <Route path="/" exact component={HomePage}/>
+    <div className="App">
+      <Route path="/" exact component={HomePage} />
       <Route path="/chats" component={ChatPage} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

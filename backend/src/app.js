@@ -1,29 +1,30 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
+import dotenv from "dotenv";
+import createError from "http-errors";
 
-import data from "./data/data";
-import { errorHandler } from "utils";
+import { errorHandler } from "middlewares";
+import connectDB from "./database/connection";
+import { userRoute, uploadRoute } from "routes";
+
+dotenv.config();
 
 const app = express();
+
+connectDB();
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "API is working" });
-});
+userRoute(app);
+uploadRoute(app);
 
-app.get("/api/chat", (req, res) => {
-  res.json(data);
+app.use((req, res, next) => {
+  next(createError(404));
 });
-
-app.get("/api/chat/:id", (req, res) => {
-  res.json(data.find((chat) => chat._id === req.params.id));
-});
-
-errorHandler(app);
+app.use(errorHandler);
 
 export default app;
