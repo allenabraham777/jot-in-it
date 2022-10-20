@@ -9,6 +9,11 @@ const config = {
   application: {
     env: process.env.NODE_ENV || "development",
     secret: process.env.SECRET,
+    chats: {
+      group: {
+        limit: 250,
+      },
+    },
   },
   cloudinary: {
     name: process.env.CLOUDINARY_NAME,

@@ -14,9 +14,9 @@ class UserService {
       }
       const user = await this.repository.createUser(name, email, password, pic);
       if (!user) throwError(null, "User not created!", 500);
-      const { email: _email, name: _name, _id } = user;
+      const { email: _email, name: _name, _id, pic } = user;
       const token = generateToken(_id);
-      return formatData({ email: _email, name: _name, _id, token });
+      return formatData({ email: _email, name: _name, _id, pic, token });
     } catch (error) {
       throw error;
     }
@@ -31,6 +31,15 @@ class UserService {
       const { email: _email, name: _name, _id } = user;
       const token = generateToken(_id);
       return formatData({ email: _email, name: _name, _id, token });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllUsers(keyword, _id) {
+    try {
+      const users = await this.repository.findUserWithKeyword(keyword, _id);
+      return formatData(users);
     } catch (error) {
       throw error;
     }

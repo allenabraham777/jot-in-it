@@ -1,4 +1,4 @@
-import { User } from "../models";
+import { User } from "models";
 
 class UserRepository {
   constructor() {
@@ -10,7 +10,26 @@ class UserRepository {
   }
 
   createUser(name, email, password, pic) {
-    return this.model.create({ name, email, password, pic });
+    const payload = { name, email, password };
+
+    if (pic) {
+      payload.pic = pic;
+    }
+
+    return this.model.create(payload);
+  }
+
+  findUserWithKeyword(keyword = null, exclude = null) {
+    const query = keyword
+      ? {
+          $or: [
+            { name: { $regex: keyword, $options: "i" } },
+            { email: { $regex: keyword, $options: "i" } },
+          ],
+        }
+      : {};
+    const excludeQuery = exclude ? { _id: { $ne: exclude } } : {};
+    return this.model.find(query).find(excludeQuery);
   }
 }
 

@@ -177,7 +177,7 @@ const SignUp = () => {
         <Input
           type="file"
           p={1.5}
-          accept="image/*"
+          accept="image/jpeg,image/png"
           onChange={({ target: { files } }) => {
             postDetails(files[0]);
           }}

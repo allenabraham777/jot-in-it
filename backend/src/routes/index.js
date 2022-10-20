@@ -1,2 +1,3 @@
-export { default as userRoute } from "./user";
-export { default as uploadRoute } from "./upload";
+export { default as userRoutes } from "./user";
+export { default as uploadRoutes } from "./upload";
+export { default as chatRoutes } from "./chat";

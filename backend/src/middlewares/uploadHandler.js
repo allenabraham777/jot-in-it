@@ -2,8 +2,6 @@ import multer from "multer";
 import shortid from "shortid";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { throwError, cloudinary } from "utils";
-import dotenv from "dotenv";
-dotenv.config();
 
 const cloudinaryStorage = new CloudinaryStorage({
   cloudinary: cloudinary,

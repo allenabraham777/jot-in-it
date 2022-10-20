@@ -2,7 +2,7 @@ import { uploadController } from "controllers";
 import { userValidator } from "validators";
 import { uploadHandler } from "middlewares";
 
-const uploadRoute = (app) => {
+const uploadRoutes = (app) => {
   app.post(
     "/api/upload",
     uploadHandler.uploadSingleFile("pic"),
@@ -10,4 +10,4 @@ const uploadRoute = (app) => {
   );
 };
 
-export default uploadRoute;
+export default uploadRoutes;
