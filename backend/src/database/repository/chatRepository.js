@@ -27,6 +27,15 @@ class ChatRepository {
       });
   }
 
+  findChatByChatIdAndUserId(chatId, userId) {
+    return this.model.findOne({
+      $and: [
+        { _id: { $eq: chatId } },
+        { users: { $elemMatch: { $eq: userId } } },
+      ],
+    });
+  }
+
   findOrCreateEndToEndChatByUsers(id, userId) {
     return this.model
       .find({
@@ -79,6 +88,10 @@ class ChatRepository {
       .populate("users", "-password -__v -createdAt -updatedAt")
       .populate("groupAdmin", "-password -__v -createdAt -updatedAt")
       .populate("latestMessage");
+  }
+
+  updateLatestMessage(chatId, latestMessage) {
+    return this.model.findByIdAndUpdate(chatId, { latestMessage });
   }
 }
 

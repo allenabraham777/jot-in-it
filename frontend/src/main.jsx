@@ -11,11 +11,11 @@ import "./main.css";
 axios.defaults.baseURL = "http://localhost:3001";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ChatProvider>
-    <ChakraProvider>
-      <BrowserRouter>
+  <BrowserRouter>
+    <ChatProvider>
+      <ChakraProvider>
         <App />
-      </BrowserRouter>
-    </ChakraProvider>
-  </ChatProvider>
+      </ChakraProvider>
+    </ChatProvider>
+  </BrowserRouter>
 );

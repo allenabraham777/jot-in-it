@@ -5,7 +5,7 @@ import createError from "http-errors";
 
 import { errorHandler } from "middlewares";
 import connectDB from "./database/connection";
-import { userRoutes, uploadRoutes, chatRoutes } from "routes";
+import { userRoutes, uploadRoutes, chatRoutes, messageRoutes } from "routes";
 
 const app = express();
 
@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 userRoutes(app);
 uploadRoutes(app);
 chatRoutes(app);
+messageRoutes(app);
 
 app.use((req, res, next) => {
   next(createError(404));
