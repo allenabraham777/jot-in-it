@@ -3,19 +3,52 @@ import { chatState } from "ChatProvider";
 import { Box, FormControl, Input, Spinner, useToast } from "@chakra-ui/react";
 import { messageApi as api } from "apis";
 import { useEffect } from "react";
+import Lottie from "react-lottie";
+import animationData from "animations/typing.json";
 
 import "./Messages.css";
 import ScrollableChat from "./ScrollableChat";
 
-const Messages = ({ fetchAgain }) => {
+let selectedChatCompare, lastActive;
+
+const Messages = ({ fetchAgain, socket }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const toast = useToast();
-  const { user, selectedChat, setSelectedChat } = chatState();
+  const { user, selectedChat } = chatState();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData,
+    renderSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("message received", (newMessageReceived) => {
+        if (
+          !selectedChatCompare ||
+          selectedChatCompare._id !== newMessageReceived.chat._id
+        ) {
+        } else {
+          setMessages([...messages, newMessageReceived]);
+        }
+      });
+
+      socket.on("typing", () => setIsTyping(true));
+      socket.on("stop typing", () => setIsTyping(false));
+    }
+  }, [socket]);
 
   useEffect(() => {
     fetchAllMessages();
+    selectedChatCompare = selectedChat;
   }, [selectedChat, fetchAgain]);
 
   const messageApi = api(user);
@@ -28,6 +61,7 @@ const Messages = ({ fetchAgain }) => {
     try {
       const { data } = await messageApi.getAllMessages(selectedChat._id);
       setMessages(data);
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       console.error(error);
       toast({
@@ -50,6 +84,8 @@ const Messages = ({ fetchAgain }) => {
           selectedChat._id,
           message
         );
+        stopTyping();
+        socket.emit("new message", data);
         setMessages((oldMessages) => [...oldMessages, data]);
       }
     } catch (error) {
@@ -65,8 +101,25 @@ const Messages = ({ fetchAgain }) => {
     }
   };
 
+  const stopTyping = () => {
+    setTyping(false);
+    socket.emit("stop typing", selectedChat._id);
+  };
+
   const typingHandler = (e) => {
     setMessage(e.target.value);
+    if (!socket) return;
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat._id);
+    }
+    lastActive = new Date().getTime();
+    setTimeout(() => {
+      const timeNow = new Date().getTime();
+      if (timeNow - lastActive >= 3000) {
+        stopTyping();
+      }
+    }, 3000);
   };
   return (
     <Box
@@ -88,6 +141,16 @@ const Messages = ({ fetchAgain }) => {
         </div>
       )}
       <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+        {isTyping ? (
+          <Lottie
+            type={typing}
+            width={70}
+            style={{ marginLeft: 0, marginBottom: 15 }}
+            options={defaultOptions}
+          />
+        ) : (
+          <></>
+        )}
         <Input
           variant="filled"
           bg="#E0E0E0"

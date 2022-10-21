@@ -6,6 +6,7 @@
     ["module-resolver", {
       "alias": {
         "config": "./backend/config",
+        "socket": "./backend/socket",
         "routes": "./backend/src/routes",
         "controllers": "./backend/src/controllers",
         "services": "./backend/src/services",

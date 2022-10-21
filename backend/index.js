@@ -2,6 +2,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import "colors";
 import config from "config";
+import socket from "socket";
 
 /**
  * Module dependencies.
@@ -80,5 +81,6 @@ const onListening = () => {
  * Listen on provided port, on all network interfaces.
  */
 server.listen(port);
+socket(server);
 server.on("error", onError);
 server.on("listening", onListening);

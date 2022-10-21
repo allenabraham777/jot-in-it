@@ -3,6 +3,9 @@ dotenv.config();
 
 const config = {
   port: process.env.PORT,
+  client: {
+    host: process.env.CLIENT_HOST,
+  },
   db: {
     url: process.env.DB_URL,
   },

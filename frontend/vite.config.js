@@ -7,6 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       apis: path.resolve(__dirname, "./src/apis"),
+      animations: path.resolve(__dirname, "./src/animations"),
+      socket: path.resolve(__dirname, "./src/socket"),
       utils: path.resolve(__dirname, "./src/utils"),
       pages: path.resolve(__dirname, "./src/pages"),
       components: path.resolve(__dirname, "./src/components"),
