@@ -43,7 +43,7 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       history.push("/chats");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const message =
         error?.response?.data?.error || error.message || "Error loggin in!";
       toast({

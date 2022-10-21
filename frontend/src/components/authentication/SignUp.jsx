@@ -100,7 +100,7 @@ const SignUp = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       history.push("/chats");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       const message =
         error?.response?.data?.error || error.message || "Cannot create user";
       toast({

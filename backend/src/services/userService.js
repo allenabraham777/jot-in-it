@@ -28,9 +28,9 @@ class UserService {
       if (!user || !(await user.matchPassword(password))) {
         throwError(null, "Please check your email and password", 403);
       }
-      const { email: _email, name: _name, _id } = user;
+      const { email: _email, name: _name, _id, pic } = user;
       const token = generateToken(_id);
-      return formatData({ email: _email, name: _name, _id, token });
+      return formatData({ email: _email, name: _name, _id, pic, token });
     } catch (error) {
       throw error;
     }

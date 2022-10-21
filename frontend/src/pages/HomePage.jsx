@@ -9,8 +9,22 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import { Login, SignUp } from "components/authentication";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const HomePage = () => {
+  const history = useHistory();
+  useEffect(() => {
+    checkUserInfo();
+  }, [history]);
+
+  const checkUserInfo = async () => {
+    let userInfo = await localStorage.getItem("userInfo");
+    if (userInfo) {
+      history.push("/chats");
+    }
+  };
+
   return (
     <Container maxW="xl" centerContent>
       <Box

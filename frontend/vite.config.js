@@ -7,8 +7,10 @@ export default defineConfig({
   resolve: {
     alias: {
       apis: path.resolve(__dirname, "./src/apis"),
+      utils: path.resolve(__dirname, "./src/utils"),
       pages: path.resolve(__dirname, "./src/pages"),
       components: path.resolve(__dirname, "./src/components"),
+      ChatProvider: path.resolve(__dirname, "./src/context/ChatProvider.jsx"),
     },
   },
   plugins: [react()],

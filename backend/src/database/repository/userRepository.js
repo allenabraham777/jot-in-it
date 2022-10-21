@@ -29,7 +29,10 @@ class UserRepository {
         }
       : {};
     const excludeQuery = exclude ? { _id: { $ne: exclude } } : {};
-    return this.model.find(query).find(excludeQuery);
+    return this.model
+      .find(query)
+      .find(excludeQuery)
+      .select("-password -createdAt -updatedAt -__v");
   }
 }
 
