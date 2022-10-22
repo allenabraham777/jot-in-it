@@ -11,11 +11,13 @@ const socketServer = (server) => {
 
   io.on("connection", (socket) => {
     socket.on("setup", (userData) => {
+      console.log("Socket connection successful");
       socket.join(userData._id);
       socket.emit("connected");
     });
 
     socket.on("join chat", (room) => {
+      console.log("Joined room: " + room);
       socket.join(room);
     });
 
