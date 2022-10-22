@@ -3,7 +3,7 @@ name: Generate a build and push to another branch
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -21,6 +21,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Copy package
+        run: cp package.json ./output/package.json
 
       - name: Push
         uses: s0/git-publish-subdir-action@develop
