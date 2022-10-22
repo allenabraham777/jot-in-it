@@ -4,7 +4,7 @@ import Lottie from "react-lottie";
 import animationData from "animations/typing.json";
 
 import "./Messages.css";
-import ScrollableChat from "./ScrollableChat";
+import ScrollableChat from "components/message/ScrollableChat";
 
 let lastActive;
 

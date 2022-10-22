@@ -4,7 +4,7 @@ import cors from "cors";
 import createError from "http-errors";
 
 import { errorHandler } from "middlewares";
-import connectDB from "./database/connection";
+import connectDB from "database/connection";
 import {
   userRoutes,
   uploadRoutes,

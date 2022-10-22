@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import { SideDrawer } from "components/misc";
 import { MyChats, ChatBox } from "components";
 import { useState } from "react";
-import { notificationApi as api } from "../apis";
+import { notificationApi as api } from "apis";
 import { useEffect } from "react";
 
 const ChatPage = () => {

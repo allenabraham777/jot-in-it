@@ -10,6 +10,7 @@
         "routes": "./backend/src/routes",
         "controllers": "./backend/src/controllers",
         "services": "./backend/src/services",
+        "database": "./backend/src/database",
         "models": "./backend/src/database/models",
         "repository": "./backend/src/database/repository",
         "utils": "./backend/src/utils",
