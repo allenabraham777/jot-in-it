@@ -16,27 +16,30 @@ import {
   IconButton,
   Spinner,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { chatState } from "ChatProvider";
 import { UserBadgeItem, UserListItem } from "components/UserAvatar";
 import { chatApi as api } from "apis";
 import { debounce } from "utils";
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
+  const { selectedChat, setSelectedChat, user } = chatState();
   const { isOpen, onOpen, onClose: close } = useDisclosure();
   const [searchResult, setSearchResult] = useState([]);
+  const [groupChatName, setGroupChatName] = useState("");
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
   const toast = useToast();
-  const nameRef = useRef();
   const searchRef = useRef();
 
-  const { selectedChat, setSelectedChat, user } = chatState();
+  useEffect(() => {
+    setGroupChatName(selectedChat?.chatName);
+  }, [selectedChat]);
 
   const chatApi = api(user);
 
   const onClose = () => {
-    nameRef.current.value = "";
+    setGroupChatName("");
     setSearchResult([]);
     close();
   };
@@ -69,8 +72,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const performSearch = debounce(handleSearch, 1000);
 
   const handleRename = async () => {
-    const groupChatName = nameRef.current.value;
-    if (!groupChatName) return;
+    if (!groupChatName || groupChatName === selectedChat.chatName) return;
 
     setRenameLoading(true);
     try {
@@ -93,7 +95,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         position: "bottom",
       });
     }
-    nameRef.current.value = "";
+    setGroupChatName("");
     setRenameLoading(false);
   };
 
@@ -141,8 +143,8 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         position: "bottom",
       });
     }
-    nameRef.current.value = "";
     searchRef.current.value = "";
+    setGroupChatName("");
     setSearchResult([]);
     setLoading(false);
   };
@@ -167,7 +169,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       );
       user1._id === user._id ? setSelectedChat(null) : setSelectedChat(data);
       setFetchAgain((prevFetchAgain) => !prevFetchAgain);
-      fetchMessages();
+      if (user1._id !== user._id) fetchMessages();
     } catch (error) {
       const message =
         error?.response?.data?.error ||
@@ -181,8 +183,8 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         position: "bottom",
       });
     }
-    nameRef.current.value = "";
     searchRef.current.value = "";
+    setGroupChatName("");
     setLoading(false);
   };
 
@@ -219,11 +221,17 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
               ))}
             </Box>
             <FormControl display="flex">
-              <Input placeholder="Chat Name" mb={3} ref={nameRef} />
+              <Input
+                placeholder="Chat Name"
+                mb={3}
+                value={groupChatName}
+                onChange={(e) => setGroupChatName(e.target.value)}
+              />
               <Button
                 variant="solid"
                 colorScheme="teal"
                 ml={1}
+                disabled={groupChatName === selectedChat.chatName}
                 isLoading={renameloading}
                 onClick={handleRename}
               >

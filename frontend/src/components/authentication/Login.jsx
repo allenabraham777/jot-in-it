@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { userApi } from "apis";
 import { useHistory } from "react-router-dom";
+import { chatState } from "ChatProvider";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
+  const { setUser } = chatState();
 
   const handleClick = () => setShow((prevState) => !prevState);
 
@@ -41,7 +43,7 @@ const Login = () => {
         password,
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
-      history.push("/chats");
+      location.reload();
     } catch (error) {
       console.error(error);
       const message =

@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { chatState } from "ChatProvider";
-import { Box, FormControl, Input, Spinner, useToast } from "@chakra-ui/react";
-import { messageApi as api } from "apis";
-import { useEffect } from "react";
+import { Box, FormControl, Input, Spinner } from "@chakra-ui/react";
 import Lottie from "react-lottie";
 import animationData from "animations/typing.json";
 
 import "./Messages.css";
 import ScrollableChat from "./ScrollableChat";
 
-let selectedChatCompare, lastActive;
+let lastActive;
 
-const Messages = ({ fetchAgain, socket }) => {
-  const [messages, setMessages] = useState([]);
+const Messages = ({
+  startTyping,
+  stopTyping,
+  messages,
+  loading,
+  typing,
+  socketConnected,
+  isTyping,
+  sendMessage,
+}) => {
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [typing, setTyping] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-  const toast = useToast();
-  const { user, selectedChat } = chatState();
 
   const defaultOptions = {
     loop: true,
@@ -29,89 +29,18 @@ const Messages = ({ fetchAgain, socket }) => {
     },
   };
 
-  useEffect(() => {
-    if (socket) {
-      socket.on("message received", (newMessageReceived) => {
-        if (
-          !selectedChatCompare ||
-          selectedChatCompare._id !== newMessageReceived.chat._id
-        ) {
-        } else {
-          setMessages([...messages, newMessageReceived]);
-        }
-      });
-
-      socket.on("typing", () => setIsTyping(true));
-      socket.on("stop typing", () => setIsTyping(false));
+  const sendMessageHandler = async (e) => {
+    if (e.key == "Enter" && message) {
+      setMessage("");
+      sendMessage(message);
     }
-  }, [socket]);
-
-  useEffect(() => {
-    fetchAllMessages();
-    selectedChatCompare = selectedChat;
-  }, [selectedChat, fetchAgain]);
-
-  const messageApi = api(user);
-
-  const fetchAllMessages = async () => {
-    if (!selectedChat) {
-      return;
-    }
-    setLoading(true);
-    try {
-      const { data } = await messageApi.getAllMessages(selectedChat._id);
-      setMessages(data);
-      socket.emit("join chat", selectedChat._id);
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-    }
-    setLoading(false);
-  };
-
-  const sendMessage = async (e) => {
-    try {
-      if (e.key == "Enter" && message) {
-        setMessage("");
-        const { data } = await messageApi.sendMessage(
-          selectedChat._id,
-          message
-        );
-        stopTyping();
-        socket.emit("new message", data);
-        setMessages((oldMessages) => [...oldMessages, data]);
-      }
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-    }
-  };
-
-  const stopTyping = () => {
-    setTyping(false);
-    socket.emit("stop typing", selectedChat._id);
   };
 
   const typingHandler = (e) => {
     setMessage(e.target.value);
-    if (!socket) return;
+    if (!socketConnected) return;
     if (!typing) {
-      setTyping(true);
-      socket.emit("typing", selectedChat._id);
+      startTyping();
     }
     lastActive = new Date().getTime();
     setTimeout(() => {
@@ -140,7 +69,7 @@ const Messages = ({ fetchAgain, socket }) => {
           <ScrollableChat messages={messages} />
         </div>
       )}
-      <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+      <FormControl onKeyDown={sendMessageHandler} isRequired mt={3}>
         {isTyping ? (
           <Lottie
             type={typing}

@@ -86,11 +86,13 @@ class ChatService {
     }
   }
 
-  async removeUserFromGroup(groupId, userId, groupAdmin) {
+  async removeUserFromGroup(groupId, userId, currentUser) {
     try {
+      const requireAdmin = userId === currentUser ? false : true;
       const groupChat = await this.repository.findGroupChatByGroupId(
         groupId,
-        groupAdmin
+        currentUser,
+        requireAdmin
       );
       if (!groupChat) throwError(null, "Group not found!", 404);
       groupChat.users = groupChat.users.filter((user) => user.id !== userId);

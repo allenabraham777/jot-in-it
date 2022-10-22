@@ -5,7 +5,13 @@ import createError from "http-errors";
 
 import { errorHandler } from "middlewares";
 import connectDB from "./database/connection";
-import { userRoutes, uploadRoutes, chatRoutes, messageRoutes } from "routes";
+import {
+  userRoutes,
+  uploadRoutes,
+  chatRoutes,
+  messageRoutes,
+  notificationRoutes,
+} from "routes";
 
 const app = express();
 
@@ -20,6 +26,7 @@ userRoutes(app);
 uploadRoutes(app);
 chatRoutes(app);
 messageRoutes(app);
+notificationRoutes(app);
 
 app.use((req, res, next) => {
   next(createError(404));

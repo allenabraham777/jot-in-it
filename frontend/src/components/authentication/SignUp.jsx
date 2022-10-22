@@ -98,7 +98,7 @@ const SignUp = () => {
         pic,
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
-      history.push("/chats");
+      location.reload();
     } catch (error) {
       console.error(error);
       const message =

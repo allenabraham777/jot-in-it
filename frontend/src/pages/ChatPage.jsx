@@ -4,10 +4,27 @@ import { Box } from "@chakra-ui/react";
 import { SideDrawer } from "components/misc";
 import { MyChats, ChatBox } from "components";
 import { useState } from "react";
+import { notificationApi as api } from "../apis";
+import { useEffect } from "react";
 
 const ChatPage = () => {
-  const { user } = chatState();
+  const { user, setNotification } = chatState();
   const [fetchAgain, setFetchAgain] = useState(false);
+  let notificationApi;
+
+  useEffect(() => {
+    if (user) {
+      notificationApi = api(user);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (notificationApi) {
+      notificationApi
+        .getAllNotifications()
+        .then(({ data }) => setNotification(data));
+    }
+  }, [notificationApi]);
 
   return (
     <div style={{ width: "100%" }}>

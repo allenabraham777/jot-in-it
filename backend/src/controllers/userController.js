@@ -5,6 +5,7 @@ const userService = new UserService();
 
 const register = asyncHandler(async (req, res) => {
   const { name, email, password, pic } = req.body;
+  console.log({ name, email, password, pic });
   const { data } = await userService.registerUser({
     name,
     email,

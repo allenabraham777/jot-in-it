@@ -82,9 +82,13 @@ class ChatRepository {
     });
   }
 
-  findGroupChatByGroupId(chatId, groupAdmin) {
+  findGroupChatByGroupId(chatId, currentUser, requireAdmin) {
+    const payload = { _id: chatId };
+    if (requireAdmin) {
+      groupAdmin: currentUser;
+    }
     return this.model
-      .findOne({ _id: chatId, groupAdmin })
+      .findOne(payload)
       .populate("users", "-password -__v -createdAt -updatedAt")
       .populate("groupAdmin", "-password -__v -createdAt -updatedAt")
       .populate("latestMessage");

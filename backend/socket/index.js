@@ -10,17 +10,13 @@ const socketServer = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("Connected to socket.io");
-
     socket.on("setup", (userData) => {
       socket.join(userData._id);
-      console.log(userData._id);
       socket.emit("connected");
     });
 
     socket.on("join chat", (room) => {
       socket.join(room);
-      console.log("User Joined Room: ", room);
     });
 
     socket.on("typing", (room) => {
@@ -42,7 +38,6 @@ const socketServer = (server) => {
     });
 
     socket.off("setup", (userData) => {
-      console.log("USER DISCONNECTED");
       socket.leave(userData._id);
     });
   });

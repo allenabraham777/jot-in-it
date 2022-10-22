@@ -21,13 +21,15 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import NotificationBadge, { Effect } from "react-notification-badge";
 import { BellIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRef, useState } from "react";
 import { chatState } from "ChatProvider";
 import { ProfileModal, ChatLoading } from "components/misc";
 import { UserListItem } from "components/UserAvatar";
 import { useHistory } from "react-router-dom";
-import { chatApi as api } from "apis";
+import { chatApi as api, notificationApi as _api } from "apis";
+import { chatUtils } from "utils";
 
 const SideDrawer = () => {
   const [searchResult, setSearchResult] = useState([]);
@@ -39,9 +41,18 @@ const SideDrawer = () => {
   const searchRef = useRef();
   const toast = useToast();
 
-  const { user, setSelectedChat, chats, setChats } = chatState();
+  const {
+    user,
+    setUser,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = chatState();
 
   const chatApi = api(user);
+  const notificationApi = _api(user);
 
   const onClose = () => {
     setSearchResult([]);
@@ -51,6 +62,7 @@ const SideDrawer = () => {
 
   const logout = () => {
     localStorage.removeItem("userInfo");
+    setUser(null);
     history.push("/");
   };
 
@@ -114,6 +126,12 @@ const SideDrawer = () => {
     setLoadingChat(false);
   };
 
+  const openChat = (n) => {
+    setSelectedChat(n.chat);
+    setNotification(notification.filter((_n) => _n._id !== n._id));
+    notificationApi.removeNotification(n._id);
+  };
+
   return (
     <>
       <Box
@@ -137,9 +155,25 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList px={2}>
+              {!notification.length && "No New Messages"}
+              {notification.map((n) => (
+                <MenuItem key={n._id} onClick={() => openChat(n)}>
+                  {n.chat.isGroupChat
+                    ? `New message in ${n.chat.chatName}`
+                    : `New message from ${chatUtils.getSender(
+                        n.sender,
+                        n.chat.users
+                      )}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>

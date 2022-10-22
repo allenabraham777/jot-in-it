@@ -1,10 +1,15 @@
-import { MessageRepository, ChatRepository } from "repository";
+import {
+  MessageRepository,
+  ChatRepository,
+  NotificationRepository,
+} from "repository";
 import { formatData, throwError } from "utils";
 
 class MessageService {
   constructor() {
     this.repository = new MessageRepository();
     this.chatRepository = new ChatRepository();
+    this.notificationRepository = new NotificationRepository();
   }
   async sendMessage(sender, chat, content) {
     try {
@@ -14,7 +19,32 @@ class MessageService {
         content,
       };
       const message = await this.repository.createMessage(newMessage);
-      await this.chatRepository.updateLatestMessage(chat, message);
+      const _chat = await this.chatRepository.updateLatestMessage(
+        chat,
+        message
+      );
+      for (const user of _chat.users) {
+        if (`${sender}` === `${user}`) continue;
+        const notification =
+          await this.notificationRepository.findNotificationsByUserId(
+            user,
+            true
+          );
+        if (!!notification) {
+          const doMessageExists = notification.notifications.find((n) => {
+            return `${n.chat._id}` === `${chat}`;
+          });
+          if (!doMessageExists) {
+            notification.notifications = [
+              ...notification.notifications,
+              message._id,
+            ];
+            await notification.save();
+          }
+        } else {
+          await this.notificationRepository.createNotification(user, message);
+        }
+      }
       return formatData(message);
     } catch (error) {
       throw error;
