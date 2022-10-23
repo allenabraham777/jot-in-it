@@ -124,7 +124,7 @@ const GroupChatModal = ({ children }) => {
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="#101010" color="#ffffff">
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"

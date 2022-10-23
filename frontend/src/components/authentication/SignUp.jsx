@@ -20,7 +20,6 @@ const SignUp = () => {
   const [show, setShow] = useState(false);
   const [pic, setPic] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
 
   const toast = useToast();
 
@@ -115,7 +114,7 @@ const SignUp = () => {
   };
 
   return (
-    <VStack spacing="5px" color="black">
+    <VStack spacing="5px" color="white">
       <FormControl id="first-name" isRequired>
         <FormLabel>Name</FormLabel>
         <Input
@@ -148,7 +147,7 @@ const SignUp = () => {
             type={show ? "text" : "password"}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button h="1.75rem" bg="#333333" size="sm" onClick={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -166,7 +165,7 @@ const SignUp = () => {
             type={show ? "text" : "password"}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button h="1.75rem" bg="#333333" size="sm" onClick={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -184,7 +183,7 @@ const SignUp = () => {
         />
       </FormControl>
       <Button
-        colorScheme="blue"
+        colorScheme="telegram"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}

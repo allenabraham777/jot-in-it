@@ -31,28 +31,39 @@ const HomePage = () => {
         d="flex"
         justifyContent="center"
         p={3}
-        bg="white"
+        bg="#101010"
         w="100%"
-        m="40px 0 15px 0"
+        mt="40px"
         borderRadius="lg"
         borderWidth="1px"
+        borderBottomLeftRadius={0}
+        borderBottomRightRadius={0}
+        borderBottomColor="transparent"
       >
-        <Text textAlign="center" fontSize="4xl" color="black">
+        <Text textAlign="center" fontSize="4xl" color="white" fontWeight="bold">
           Jot In It
         </Text>
       </Box>
       <Box
         p={4}
-        bg="white"
-        textColor="black"
+        mt={-2}
+        bg="#101010"
+        color="white"
         w="100%"
         borderRadius="lg"
         borderWidth="1px"
+        borderTopLeftRadius={0}
+        borderTopRightRadius={0}
+        borderTopColor="transparent"
       >
-        <Tabs variant="soft-rounded">
+        <Tabs variant="soft-rounded" colorScheme="whatsapp">
           <TabList mb="1em">
-            <Tab w="50%">Login</Tab>
-            <Tab w="50%">Sign Up</Tab>
+            <Tab w="50%" color="#888888">
+              Login
+            </Tab>
+            <Tab w="50%" color="#888888">
+              Sign Up
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

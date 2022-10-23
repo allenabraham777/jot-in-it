@@ -25,11 +25,12 @@ const ProfileModal = ({ user, children }) => {
           onClick={onOpen}
           display={{ base: "flex" }}
           icon={<ViewIcon />}
+          colorScheme="purple"
         />
       )}
       <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
         <ModalOverlay />
-        <ModalContent h="410px">
+        <ModalContent h="410px" bg="#101010" color="white">
           <ModalHeader fontSize="40px" display="flex" justifyContent="center">
             {user.name}
           </ModalHeader>
@@ -45,6 +46,8 @@ const ProfileModal = ({ user, children }) => {
               borderRadius="full"
               boxSize="150px"
               alt={user.name}
+              border="solid white"
+              borderWidth="5px"
             />
             <Text>{user.email}</Text>
           </ModalBody>

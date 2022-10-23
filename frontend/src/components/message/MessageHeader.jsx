@@ -21,6 +21,7 @@ const MessageHeader = ({ fetchAgain, setFetchAgain }) => {
         display={{ base: "flex", md: "none" }}
         icon={<ArrowBackIcon />}
         onClick={() => setSelectedChat(null)}
+        colorScheme="red"
       />
       {!selectedChat.isGroupChat ? (
         <>

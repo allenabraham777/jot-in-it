@@ -65,7 +65,7 @@ const Login = () => {
   };
 
   return (
-    <VStack spacing="5px" color="black">
+    <VStack spacing="5px" color="white">
       <FormControl id="email" isRequired>
         <FormLabel>Email</FormLabel>
         <Input
@@ -88,14 +88,14 @@ const Login = () => {
             type={show ? "text" : "password"}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button h="1.75rem" size="sm" bg="#333333" onClick={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
       <Button
-        colorScheme="blue"
+        colorScheme="telegram"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
@@ -104,7 +104,7 @@ const Login = () => {
         Login
       </Button>
       <Button
-        colorScheme="red"
+        colorScheme="purple"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={setGuestCredentials}

@@ -138,20 +138,31 @@ const SideDrawer = () => {
         display={"flex"}
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        bg="#101010"
         width="100%"
         padding="5px 10px 5px 10px"
-        borderWidth="5px"
+        border="none"
+        borderBottom="solid white"
+        borderBottomWidth="1px"
       >
         <Tooltip label="Search users to chat" hasArrow placement="bottom-end">
-          <Button variant={"ghost"} ref={btnRef} onClick={onOpen}>
+          <Button
+            variant={"ghost"}
+            ref={btnRef}
+            onClick={onOpen}
+            color="#ffffff"
+            _hover={{ bg: "#333333" }}
+            _active={{ bg: "#333333" }}
+          >
             <SearchIcon />
-            <Text display={{ base: "none", md: "flex" }} px="4">
+            <Text display={{ base: "none", md: "flex" }} color="#ffffff" px="4">
               Search User
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2xl">Jot-In-It</Text>
+        <Text fontSize="2xl" color="white" fontWeight="bold">
+          Jot In It
+        </Text>
         <div>
           <Menu>
             <MenuButton p={1}>
@@ -159,12 +170,17 @@ const SideDrawer = () => {
                 count={notification.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2xl" m={1} />
+              <BellIcon fontSize="2xl" m={1} color="white" />
             </MenuButton>
-            <MenuList px={2}>
+            <MenuList px={2} bg="#333333" color="#ffffff">
               {!notification.length && "No New Messages"}
               {notification.map((n) => (
-                <MenuItem key={n._id} onClick={() => openChat(n)}>
+                <MenuItem
+                  key={n._id}
+                  onClick={() => openChat(n)}
+                  _focus={{ bg: "#444444" }}
+                  _hover={{ bg: "#444444" }}
+                >
                   {n.chat.isGroupChat
                     ? `New message in ${n.chat.chatName}`
                     : `New message from ${chatUtils.getSender(
@@ -176,7 +192,14 @@ const SideDrawer = () => {
             </MenuList>
           </Menu>
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              as={Button}
+              color="white"
+              bg="#333333"
+              _hover={{ bg: "#444444" }}
+              _active={{ bg: "#444444" }}
+              rightIcon={<ChevronDownIcon />}
+            >
               <Avatar
                 name={user?.name}
                 size="sm"
@@ -185,12 +208,20 @@ const SideDrawer = () => {
                 src={user?.pic}
               />
             </MenuButton>
-            <MenuList>
+            <MenuList bg="#333333" color="white">
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem _focus={{ bg: "#444444" }} _hover={{ bg: "#444444" }}>
+                  My Profile
+                </MenuItem>
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={logout}>Logout</MenuItem>
+              <MenuItem
+                _focus={{ bg: "#444444" }}
+                _hover={{ bg: "#444444" }}
+                onClick={logout}
+              >
+                Logout
+              </MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -202,14 +233,16 @@ const SideDrawer = () => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg="#101010" color="white">
           <DrawerCloseButton />
           <DrawerHeader>Search User</DrawerHeader>
 
           <DrawerBody>
             <Box display="flex" pb={2}>
               <Input placeholder="Name or Email" mr={2} ref={searchRef} />
-              <Button onClick={handleSearch}>Go</Button>
+              <Button onClick={handleSearch} colorScheme="telegram">
+                Go
+              </Button>
             </Box>
             {loading ? (
               <ChatLoading />

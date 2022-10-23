@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { Box, FormControl, Input, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  FormControl,
+  IconButton,
+  Input,
+  Spinner,
+} from "@chakra-ui/react";
 import Lottie from "react-lottie";
 import animationData from "animations/typing.json";
 
 import "./Messages.css";
 import ScrollableChat from "components/message/ScrollableChat";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 
 let lastActive;
 
@@ -31,8 +39,7 @@ const Messages = ({
 
   const sendMessageHandler = async (e) => {
     if (e.key == "Enter" && message) {
-      setMessage("");
-      sendMessage(message);
+      sendAction();
     }
   };
 
@@ -50,20 +57,33 @@ const Messages = ({
       }
     }, 3000);
   };
+
+  const sendAction = () => {
+    setMessage("");
+    sendMessage(message);
+  };
+
   return (
     <Box
       display="flex"
       flexDir="column"
       justifyContent="flex-end"
       p={3}
-      bg="#E8E8E8"
+      bg="#333333"
       w="100%"
       h="100%"
       borderRadius="lg"
       overflowY="hidden"
     >
       {loading ? (
-        <Spinner size="xl" w={20} h={20} alignSelf="center" margin="auto" />
+        <Spinner
+          size="xl"
+          w={20}
+          h={20}
+          color="white"
+          alignSelf="center"
+          margin="auto"
+        />
       ) : (
         <div className="messages">
           <ScrollableChat messages={messages} />
@@ -80,13 +100,25 @@ const Messages = ({
         ) : (
           <></>
         )}
-        <Input
-          variant="filled"
-          bg="#E0E0E0"
-          placeholder="Enter a message..."
-          onChange={typingHandler}
-          value={message}
-        />
+        <Flex>
+          <Input
+            variant="filled"
+            bg="#454545"
+            color="white"
+            _hover={{ bg: "#444444" }}
+            _placeholder={{ color: "#aaaaaa" }}
+            placeholder="Enter a message..."
+            onChange={typingHandler}
+            value={message}
+            mr="10px"
+          />
+          <IconButton
+            borderRadius="full"
+            icon={<ChevronRightIcon fontSize="30px" fontWeight="bold" />}
+            onClick={sendAction}
+            colorScheme="whatsapp"
+          />
+        </Flex>
       </FormControl>
     </Box>
   );

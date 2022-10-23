@@ -39,7 +39,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const chatApi = api(user);
 
   const onClose = () => {
-    setGroupChatName("");
+    setGroupChatName(selectedChat?.chatName);
     setSearchResult([]);
     close();
   };
@@ -95,7 +95,6 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         position: "bottom",
       });
     }
-    setGroupChatName("");
     setRenameLoading(false);
   };
 
@@ -144,7 +143,6 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       });
     }
     searchRef.current.value = "";
-    setGroupChatName("");
     setSearchResult([]);
     setLoading(false);
   };
@@ -184,7 +182,6 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       });
     }
     searchRef.current.value = "";
-    setGroupChatName("");
     setLoading(false);
   };
 
@@ -194,11 +191,12 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         display={{ base: "flex" }}
         icon={<ViewIcon />}
         onClick={onOpen}
+        colorScheme="purple"
       />
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="#101010" color="#ffffff">
           <ModalHeader
             fontSize="35px"
             fontFamily="Work sans"
@@ -248,7 +246,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
             </FormControl>
 
             {loading ? (
-              <Spinner size="lg" />
+              <Spinner size="lg" color="white" />
             ) : (
               searchResult?.map((user) => (
                 <UserListItem
