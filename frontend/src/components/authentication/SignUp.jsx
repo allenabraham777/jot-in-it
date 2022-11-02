@@ -8,6 +8,7 @@ import {
   InputRightElement,
   Button,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { userApi, uploadApi } from "apis";
 import { useHistory } from "react-router-dom";
@@ -182,6 +183,10 @@ const SignUp = () => {
           }}
         />
       </FormControl>
+      <Text style={{ marginTop: 15 }} hidden={!loading}>
+        Please wait, the server may be restarting due to ideal time limit of
+        15minutes
+      </Text>
       <Button
         colorScheme="telegram"
         width="100%"
